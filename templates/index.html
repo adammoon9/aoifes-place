@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aoife's Place</title>
     <link rel="stylesheet" href="../static/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script src="../static/script.js"></script>
 </head>
@@ -14,7 +15,6 @@
             <h1 class="logo">Aoife's Place</h1>
             <nav aria-label="Main Navigation">
                 <a href="#" aria-current="page">Home</a>
-                <a href="/signhere" aria-current=>Sign Your Name!</a>
             </nav>
         </header>
 
@@ -23,17 +23,30 @@
                 <article class="post">
                     <h2 class="post-title">What Aoife's Listening To</h2>
                     <div class="post-content">
-                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti debitis impedit voluptate suscipit deserunt, rem repudiandae corrupti temporibus, maxime unde reprehenderit cum voluptatem nihil nemo illum nulla! Possimus, dignissimos veniam.</p> -->
-                        <div id="embed-iframe"></div>
-                    </div>
-                </article>
-
-                <article class="post">
-                    <h2 class="post-title">Good Reads</h2>
-                    <div class="post-content">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4voL8mGVBfAF0zDXH0vGqF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </article>
             </main>
+            <aside class="sidebar">
+                <section class="widget">
+                    <h3 class="widget-title">Sign The Wall!</h3>
+                    {% if signed_users is not none %}
+                    <nav class="signed-users">
+                        <ul class="signed-users">
+                            {% for user in signed_users %}
+                                <li><span>{{ user['signed_name'] }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    {% else %}
+                    <p> Nobody has signed their name yet</p>    
+                    {% endif %}
+                    <div class="sign_name">
+                        <input type="text" id="signed-name" maxlength="80">
+                        <button class="submit-name">Sign!</button>
+                    </div>
+                </section>
+            </aside>
         </div>
     </div>
 </body>

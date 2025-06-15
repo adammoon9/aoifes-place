@@ -1,12 +1,27 @@
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  //
-};
+$(document).ready(function () {
+   
+    $('button.submit-name').click(function (e) { 
+        e.preventDefault();
+        
+        var signed_name = $('input#signed-name').val().trim();
 
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  const element = document.getElementById('embed-iframe');
-  const options = {
-      uri: 'spotify:playlist:4voL8mGVBfAF0zDXH0vGqF'
-    };
-  const callback = (EmbedController) => {};
-  IFrameAPI.createController(element, options, callback);
-};
+        // console.log(signed_name);
+        if (signed_name) {
+            $.ajax({
+                type: "POST",
+                url: "sign_name",
+                contentType: 'application/json',
+                data: JSON.stringify({'signed_name': signed_name}),
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+
+        } else{
+            alert("The name you want to sign cannot be empty!");
+        }
+    });
+
+});

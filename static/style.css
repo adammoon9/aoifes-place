@@ -10,13 +10,31 @@
 
 :root{
     --faded-lilac: #fddcff;
-    --main-lilac: #fbb5ff;
+    --main-lilac: #fdd0ff;
     --dark-lilac: #99719b;
+    --text-lilac: #cea2fd;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--dark-lilac);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--faded-lilac);
 }
 
 body {
     background-color: var(--faded-lilac);
-    color: white;
+    color: var(--text-lilac);
     font-family: 'Arial', sans-serif;
     min-height: 100vh;
 }
@@ -37,7 +55,7 @@ header {
 .logo {
     font-size: 4rem;
     font-weight: bold;
-    color: white;
+    color: var(--text-lilac);
     margin-bottom: 10px;
     text-shadow: 
         0 0 10px var(--main-lilac),
@@ -47,7 +65,7 @@ header {
 }
 
 nav a {
-    color: white;
+    color: var(--text-lilac);
     text-decoration: wavy;
     transition: all 0.3s;
 }
@@ -60,7 +78,7 @@ header nav {
 }
 
 header nav a {
-    color: white;
+    color: var(--text-lilac);
     text-decoration: wavy;
     font-size: 1.2rem;
     padding: 10px 20px;
@@ -93,8 +111,9 @@ header nav a:hover::before {
 }
 
 .content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: 40px;
-    margin-top: 50px;
     margin-left: 40px;
     margin-right: 40px;
 }
@@ -106,6 +125,10 @@ header nav a:hover::before {
     padding: 40px;
     border: 2px solid rgba(248, 53, 242, 0.3);
     box-shadow: 0 0 20px rgba(248, 53, 242, 0.2);
+}
+
+.post p {
+    margin-bottom: 15px;
 }
 
 .post { 
@@ -120,7 +143,7 @@ header nav a:hover::before {
 .post-title {
     font-size: 2rem;
     margin-bottom: 15px;
-    color: white;
+    color: var(--text-lilac);
     position: relative;
     display: inline-block;
 }
@@ -133,36 +156,90 @@ header nav a:hover::before {
     margin-bottom: 20px;
 }
 
-#customize-list{
-    float:left;
-    margin-left:20px;
-    list-style:none;
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
-#gr_updates_widget{
-    float:left;
-    border-radius: 5px;
-    background-color:#fff;
-    border:solid #683205 10px;
-    -webkit-box-shadow: 0px 0px 4px 1px #595959,
-    inset 0px 0px 0px 1px #7D730B;
-    -moz-box-shadow: 0px 0px 4px 1px #595959,
-    inset 0px 0px 0px 1px #7D730B;
-    box-shadow: 0px 0px 4px 1px #595959,
-    inset 0px 0px 0px 1px #7D730B;
-    padding:15px 0 0px 15px;
-    width:1200px;
-    height:465px;
+
+.widget {
+    background: rgba(251, 181, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 30px;
+    border: 1px solid rgba(248, 53, 242, 0.3);
+    box-shadow: 0 0 20px rgba(248, 53, 242, 0.2);
 }
-#gr_footer{
-    margin-bottom:0px;
-    height:30px;
+
+.widget-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--dark-lilac);
+    position: relative;
+    padding-bottom: 10px;
 }
-#gr_updates_widget p{
-    padding:0px;
-    margin:0;
-    font-size:14px;
+
+.widget-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: var(--dark-lilac);
+    box-shadow: 0 0 10px var(--dark-lilac);
 }
-#gr_footer img{
-    width:100px;
-    float:left;
+
+.submit-name {
+    border-left: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #848484;
+    border-bottom: 1px solid #848484;
+    background-color: var(--text-lilac);
+    font-weight: bold;
+    color: white;
+    padding: 3px 15px 3px 15px;
+}
+
+.submit-name:hover,
+.submit-name:focus {
+    outline: 0;
+}
+
+.submit-name:active {
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #848484;
+    border-top: 1px solid #848484;
+}
+
+#signed-name {
+    border-left: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #848484;
+    border-bottom: 1px solid #848484;
+    background-color: var(--text-lilac);
+    font-weight: bold;
+    font-style: italic;
+    color: white;
+    padding: 3px 15px 3px 15px;
+}
+
+#signed-name:hover,
+#signed-name:focus {
+    outline: 0;
+}
+
+ul.signed-users {
+    max-height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+ul.signed-users span {
+    /* font-weight: bolder; */
+    font-style: italic;
+    font-family: serif;
+    font-size: 2rem;
 }
