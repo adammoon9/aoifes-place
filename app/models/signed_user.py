@@ -1,6 +1,7 @@
 from app.extensions import db
 
 class SignedUser(db.Model):
+    __tablename__ = 'signed_users'
     id = db.Column(db.Integer, primary_key=True)
     signed_name = db.Column(db.String(80), unique=True)
 
