@@ -83,9 +83,70 @@ def admin_page():
     blog_posts = check_list_none_or_empty(db.session.query(BlogPost).all())
     signed_users = check_list_none_or_empty(db.session.query(SignedUser).all())
 
+    if blog_posts:
+        blog_posts = [post.serialize() for post in blog_posts]
+
 
     return make_response(render_template('admin.html', 
                                   current_user=current_user,
                                   blog_posts=blog_posts,
                                   signed_users=signed_users), 
                                   200)
+
+@main.route('/admin/signed_name/delete/<id>', methods=['DELETE'])
+@jwt_required()
+def delete_signed_name(id):
+    try:
+        db.session.query(SignedUser).filter_by(id=id).delete()
+        db.session.commit()
+
+        return 204
+    except Exception:
+        return jsonify({'msg': 'Error deleting signed name'}), 404
+    
+@main.route('/admin/blog_post', methods=['POST'])
+@jwt_required()
+def create_blog_post():
+    request_data = request.json
+    if request_data:
+        try:
+            title = request_data['title']
+            content = request_data['content']
+            new_post = BlogPost(title=title, content=content)
+            db.session.add(new_post)
+            db.session.commit()
+
+            return jsonify(new_post.serialize()), 200
+        except Exception:
+            return jsonify({'msg': 'Error creating blog post'}), 500
+    return jsonify({'msg': 'Bad request data'}), 400
+
+@main.route('/admin/blog_post/<id>', methods=['PUT'])
+@jwt_required()
+def update_blog_post(id):
+    request_data = request.json
+    if request_data:
+        try:
+            old_post = db.session.query(BlogPost).filter_by(id=id).first()
+            if old_post:
+                old_post.title = request_data['title']
+                old_post.content = request_data['content']
+
+                db.session.commit()
+
+                return jsonify(old_post.serialize()), 200
+            return jsonify({'msg': 'Error finding blog post'}), 404
+        except Exception:
+            return jsonify({'msg': 'Error deleting signed name'}), 404
+    return jsonify({'msg': 'Bad request data'}), 400
+
+@main.route('/admin/blog_post/<id>', methods=['DELETE'])
+@jwt_required()
+def delete_blog_post(id):
+    try:
+        db.session.query(BlogPost).filter_by(id=id).delete()
+        db.session.commit()
+
+        return '', 204
+    except Exception:
+        return jsonify({'msg': 'Error deleting signed name'}), 404
