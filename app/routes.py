@@ -4,6 +4,7 @@ from app.extensions import db
 from app.models.signed_user import SignedUser
 from app.models.blog_post import BlogPost
 from app.models.user import User
+from sqlalchemy.exc import IntegrityError
 
 main = Blueprint('main', __name__)
 
@@ -25,13 +26,14 @@ def root():
 def sign_name():
     request_data = request.json
     if request_data:
-        signed_name = request_data['signed_name']
+        try:
+            signed_name = request_data['signed_name']
 
-        db.session.add(SignedUser(signed_name=signed_name))
-        db.session.commit()
-
-        return jsonify({'msg': 'User signed name successfully'}), 200
-
+            db.session.add(SignedUser(signed_name=signed_name))
+            db.session.commit()
+            return jsonify({'msg': 'User signed name successfully'}), 200
+        except IntegrityError as e: 
+            return jsonify({'msg': 'Signed name must be unique and this already exists!'}), 409
     return jsonify({'msg': 'Data not found in POST request'}), 400
 
 @main.route('/login', methods=['GET', 'POST'])
@@ -59,11 +61,8 @@ def login():
                     set_access_cookies(response, access_token)
                     return response, 200
                 else:
-                    print('password')
                     return jsonify({'msg': 'login unsuccessful'}), 401
             except Exception as e:
-                print('try')
-                print(e)
                 return jsonify({'msg': 'login unsuccessful'}), 401
 
         return jsonify({'msg': 'Error parsing login info from POST request'}), 401
@@ -93,14 +92,14 @@ def admin_page():
                                   signed_users=signed_users), 
                                   200)
 
-@main.route('/admin/signed_name/delete/<id>', methods=['DELETE'])
+@main.route('/admin/signed_name/<id>', methods=['DELETE'])
 @jwt_required()
 def delete_signed_name(id):
     try:
         db.session.query(SignedUser).filter_by(id=id).delete()
         db.session.commit()
 
-        return 204
+        return '', 204
     except Exception:
         return jsonify({'msg': 'Error deleting signed name'}), 404
     
@@ -136,8 +135,8 @@ def update_blog_post(id):
 
                 return jsonify(old_post.serialize()), 200
             return jsonify({'msg': 'Error finding blog post'}), 404
-        except Exception:
-            return jsonify({'msg': 'Error deleting signed name'}), 404
+        except Exception as e:
+            return jsonify({'msg': 'Error updating blog post'}), 404
     return jsonify({'msg': 'Bad request data'}), 400
 
 @main.route('/admin/blog_post/<id>', methods=['DELETE'])
@@ -149,4 +148,4 @@ def delete_blog_post(id):
 
         return '', 204
     except Exception:
-        return jsonify({'msg': 'Error deleting signed name'}), 404
+        return jsonify({'msg': 'Error deleting blog post'}), 404

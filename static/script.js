@@ -27,6 +27,9 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
                 location.reload();
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON.msg);
             }
         });        
     });
@@ -68,17 +71,36 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify({ 
                 title: title,
-                content: title
+                content: content
             }),
             dataType: "json",
             xhrFields: { withCredentials: true },
             headers: { 'X-CSRF-TOKEN': csrf_token },
             success: function (response) {
-                // Close the modal and add the blog post dynamically to the page
                 console.log('Blog post added successfully');
+                let id = response.id;
+                let title = response.title;
+                let content = response.content;
+                let date_posted = response.upload_date;
+                let post_html = `<tr id="post-${id}-row">
+                                    <th scope="row" class="align-middle">${id}</th>
+                                    <th scope="row" class="align-middle" id="post-${id}-title">${title}</th>
+                                    <th scope="row" class="align-middle" id="post-${id}-content">${content}</th>
+                                    <th scope="row" class="align-middle">${date_posted}</th>
+                                    <th scope="row" class="align-middle">
+                                        <button class="delete-post" data-bs-toggle="modal" data-bs-target="#deletePostModal" data-post-id="${id}">Delete</button>
+                                        <button class="edit-post" data-bs-toggle="modal" data-bs-target="#editPostModal" data-post-id="${id}">Edit</button>
+                                    </th>
+                                </tr>`;
+                $('#blogPostTable tbody').append(post_html);
             },
             error: function (xhr) {
                 console.log('Error:', xhr.responseText);
+            },
+            complete: function () {
+                $('#add-post-title').val('');
+                $('#add-post-content').val('');
+                $('#addPostModal').modal('hide');
             }
         });
     });
@@ -97,9 +119,10 @@ $(document).ready(function () {
     $('#edit-post-form').submit(function(e){
         e.preventDefault();
         let title = $('input#edit-post-title').val().trim();
-        let content = $('input#edit-post-content').val();
+        let content = $('textarea#edit-post-content').val();
         let id = $(this).attr('data-post-id');
         let csrf_token = getCookie('csrf_access_token');
+        console.log(content);
 
         $.ajax({
             type: "PUT",
@@ -109,18 +132,24 @@ $(document).ready(function () {
                 'title': title,
                 'content': content
             }),
-            dataType: "dataType",
+            dataType: "json",
             xhrFields: { withCredentials: true },
             headers: { 'X-CSRF-TOKEN': csrf_token },
             success: function (response) {
                 console.log('Blog post edited successfully');
+                let id = response.id;
+                let title = response.title;
+                let content = response.content
+                $('#post-'+id+'-title').html(title);
+                $('#post-'+id+'-content').html(content);
             },
             error: function(xhr) {
                 console.log('Error', xhr.responseText);
             },
-            finally: function() {
+            complete: function () {
                 $('#edit-post-title').val('');
                 $('#edit-post-content').val('');
+                $('#editPostModal').modal('hide');
             }
         });
     });
@@ -129,11 +158,11 @@ $(document).ready(function () {
         let id = $(this).attr('data-post-id');
         let title = $('#post-'+id+'-title').html();
 
-        $('#deletePostModal p').html('<p>Are you sure you want to delete the blog post: ' + title + '?</p>');
-        $('#deleteModalConfirm').attr('data-post-id', id);
+        $('#deletePostModal div.modal-body').html('<p>Are you sure you want to delete the blog post: ' + title + '?</p>');
+        $('#deletePostModalConfirm').attr('data-post-id', id);
     });
 
-    $('#deleteModalConfirm').click(function(){
+    $('#deletePostModalConfirm').click(function(){
         let id = $(this).attr('data-post-id');
         let csrf_token = getCookie('csrf_access_token');
 
@@ -144,8 +173,37 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': csrf_token },
             success: function (response){
                 console.log('Blog post deleted successfully');
+                $(`#post-${id}-row`).remove();
+                $('#deletePostModal').modal('hide');
             },
             error: function (xhr) {
+                console.log('Error', xhr.responseText);
+            }
+        });
+    });
+
+    $('button.delete-user').click(function(){
+        let id = $(this).attr('data-user-id');
+        let name = $('#user-'+id+'-name').html();
+        $('#deleteSignedModal div.modal-body').html(`<p>Are you sure you want to delete the user: ${name}?</p>`)
+        $('#deleteSignedModalConfirm').attr('data-user-id', id);
+    });
+
+    $('#deleteSignedModalConfirm').click(function(){
+        let id = $(this).attr('data-user-id');
+        let csrf_token = getCookie('csrf_access_token');
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/signed_name/' + id,
+            xhrFields: { withCredentials: true },
+            headers: { 'X-CSRF-TOKEN': csrf_token },
+            success: function(response){
+                console.log('Signed name deleted successfully');
+                $(`#user-${id}-row`).remove();
+                $('#deleteSignedModal').modal('hide');
+            },
+            error: function(xhr) {
                 console.log('Error', xhr.responseText);
             }
         });

@@ -22,7 +22,7 @@
 
         <div class="content">
             <main class="admin-content main-content">
-                <table class="table table-borderless table-custom w-100">
+                <table class="table table-borderless table-custom w-100" id="blogPostTable">
                     <thead>
                         <tr>
                             <th class="widget-title-table text-center" colspan="5">Blog Posts</th>
@@ -39,7 +39,7 @@
                     <tbody>
                         {% if blog_posts %}
                         {% for post in blog_posts %}
-                        <tr>
+                        <tr id="post-{{ post.id }}-row">
                             <th scope="row" class="align-middle">{{ post.id }}</th>
                             <th scope="row" class="align-middle" id="post-{{ post.id }}-title">{{ post.title }}</th>
                             <th scope="row" class="align-middle" id="post-{{ post.id }}-content">{{ post.content }}</th>
@@ -70,11 +70,11 @@
                         <tbody>
                             {% if signed_users %}
                             {% for user in signed_users %}
-                            <tr>
+                            <tr id="user-{{ user.id }}-row">
                                 <th scope="row" class="align-middle">{{ user.id }}</th>
-                                <td class="align-middle"> {{ user.signed_name }} </td>
+                                <td class="align-middle" id="user-{{ user.id }}-name"> {{ user.signed_name }} </td>
                                 <td data-user-id="{{ user.id }}" class="align-middle">
-                                    <button data-user-id="{{ user.id }}" class="delete-user">Delete</button>
+                                    <button data-user-id="{{ user.id }}" class="delete-user" data-bs-toggle="modal" data-bs-target="#deleteSignedModal">Delete</button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -157,7 +157,26 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-lable="Close">Cancel</button>
-        <button type="button" class="btn btn-danger" id="deleteModalConfirm">Delete</button>
+        <button type="button" class="btn btn-danger" id="deletePostModalConfirm">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Signed Name Modal -->
+<div class="modal fade" id="deleteSignedModal" tabindex="-1" aria-labelledby="deleteSignedModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSignedModalLabel">Delete Signed Name?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-lable="Close">Cancel</button>
+        <button type="button" class="btn btn-danger" id="deleteSignedModalConfirm">Delete</button>
       </div>
     </div>
   </div>
