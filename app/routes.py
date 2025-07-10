@@ -5,6 +5,7 @@ from app.models.signed_user import SignedUser
 from app.models.blog_post import BlogPost
 from app.models.user import User
 from sqlalchemy.exc import IntegrityError
+from uuid import uuid4
 
 main = Blueprint('main', __name__)
 
@@ -23,6 +24,10 @@ def root():
                                          blog_posts=blog_posts
                                          ),
                                          200)
+
+@main.route('/post/<uuid>', methods=['GET'])
+def read_more(uuid):
+    return {'uuid': uuid}
 
 @main.route('/sign_name', methods=['POST'])
 def sign_name():
@@ -113,7 +118,8 @@ def create_blog_post():
         try:
             title = request_data['title']
             content = request_data['content']
-            new_post = BlogPost(title=title, content=content)
+            uuid = str(uuid4())
+            new_post = BlogPost(title=title, content=content, uuid=uuid)
             db.session.add(new_post)
             db.session.commit()
 

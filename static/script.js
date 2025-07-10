@@ -63,6 +63,7 @@ $(document).ready(function () {
         e.preventDefault();
         let title = $('input#add-post-title').val().trim();
         let content = $('textarea#add-post-content').val();
+        console.log(content);
         let csrf_token = getCookie('csrf_access_token');
         
         $.ajax({

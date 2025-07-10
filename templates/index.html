@@ -20,14 +20,7 @@
 
         <div class="content">
             <main class="main-content">
-                {# <article class="post">
-                    <h2 class="post-title">
-                        Title
-                    </h2>
-                    <div class="post-content">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam consectetur, unde voluptatum nisi quasi repellendus odio harum dolor maiores ducimus, reiciendis aspernatur id facilis necessitatibus nulla ratione debitis quod quas.</p>
-                    </div>
-                </article> #}
+                <div id="posts-container"></div>
                 <div id="pagination">
                     <button id="prev-page" style="max-width:fit-content;">Prev</button>
                     <span id="page-indicator">1</span>
@@ -64,8 +57,62 @@
         </div>
     </div>
 <script>
-    let posts = {{ blog_posts|tojson }}
-    console.log(posts)
+$(function(){
+    
+    const POSTS_PER_PAGE = 2;
+    let currPage = 1;
+    let posts = {{ blog_posts | tojson }};
+    let postsData = typeof posts !== "undefined" ? posts : [];
+
+    function renderPosts() {
+        const start = (currPage - 1) * POSTS_PER_PAGE
+        const end = start + POSTS_PER_PAGE;
+        const postsSlice = postsData.slice(start, end);
+
+        let html = '';
+        const MAX_POST_LENGTH = 400;
+        postsSlice.forEach(post => {
+            const isPostTooLong = post.content.length > MAX_POST_LENGTH;
+            const previewOrPost = isPostTooLong ? post.content.slice(0, MAX_POST_LENGTH) + '...' 
+                            : post.content;
+            const formattedPost = previewOrPost.replace(/\n/g, '<br>');
+                            html += `
+                <article class="post">
+                    <h2 class="post-title">${post.title}</h2>
+                    <div class="post-content">
+                        <p>${formattedPost}</p>
+                    ${isPostTooLong ? `<a class="read-more-btn" href="/post/${post.uuid}">Read More</a>` : ''}
+                    </div>
+                </article>
+                <hr>
+            `;
+        });
+
+        html = html.replace(/<hr>\s*$/, '');
+        $('#posts-container').html(html);
+
+        $('#page-indicator').text(currPage);
+
+        $('#prev-page').prop('disabled', currPage === 1);
+        $('#next-page').prop('disabled', end >= postsData.length);
+    }
+
+    $('#prev-page').on('click', function() {
+        if (currPage > 1) {
+            currPage--;
+            renderPosts();
+        }
+    });
+
+    $('#next-page').on('click', function() {
+        if ((currPage * POSTS_PER_PAGE) < postsData.length) {
+            currPage++;
+            renderPosts();
+        }
+    });
+
+    renderPosts();
+});
 </script>
 </body>
 </html>
