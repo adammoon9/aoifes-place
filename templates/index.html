@@ -20,14 +20,27 @@
 
         <div class="content">
             <main class="main-content">
-                <article class="post">
+                {# <article class="post">
+                    <h2 class="post-title">
+                        Title
+                    </h2>
+                    <div class="post-content">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam consectetur, unde voluptatum nisi quasi repellendus odio harum dolor maiores ducimus, reiciendis aspernatur id facilis necessitatibus nulla ratione debitis quod quas.</p>
+                    </div>
+                </article> #}
+                <div id="pagination">
+                    <button id="prev-page" style="max-width:fit-content;">Prev</button>
+                    <span id="page-indicator">1</span>
+                    <button id="next-page" style="max-width:fit-content;">Next</button>
+                </div>
+            </main>
+            <aside class="sidebar">
+                <section class="widget">
                     <h2 class="post-title">What Aoife's Listening To</h2>
                     <div class="post-content">
                         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4voL8mGVBfAF0zDXH0vGqF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
-                </article>
-            </main>
-            <aside class="sidebar">
+                </section>
                 <section class="widget">
                     <h3 class="widget-title">Sign The Wall!</h3>
                     {% if signed_users is not none %}
@@ -46,8 +59,13 @@
                         <button class="submit-name">Sign!</button>
                     </div>
                 </section>
+                
             </aside>
         </div>
     </div>
+<script>
+    let posts = {{ blog_posts|tojson }}
+    console.log(posts)
+</script>
 </body>
 </html>

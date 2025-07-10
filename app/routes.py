@@ -16,10 +16,12 @@ def check_list_none_or_empty(db_list):
 @main.route('/', methods=['GET'])
 def root():
     signed_users = check_list_none_or_empty([user.serialize() for user in db.session.query(SignedUser).all()])
-    
+    blog_posts = check_list_none_or_empty([post.serialize() for post in db.session.query(BlogPost).all()])
 
     return make_response(render_template('index.html',
-                                         signed_users=signed_users),
+                                         signed_users=signed_users,
+                                         blog_posts=blog_posts
+                                         ),
                                          200)
 
 @main.route('/sign_name', methods=['POST'])
