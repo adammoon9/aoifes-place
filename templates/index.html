@@ -21,11 +21,13 @@
         <div class="content">
             <main class="main-content">
                 <div id="posts-container"></div>
+                {% if blog_posts | length > 2 %}
                 <div id="pagination">
                     <button id="prev-page" style="max-width:fit-content;">Prev</button>
                     <span id="page-indicator">1</span>
                     <button id="next-page" style="max-width:fit-content;">Next</button>
                 </div>
+                {% endif %}
             </main>
             <aside class="sidebar">
                 <section class="widget">

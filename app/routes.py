@@ -27,7 +27,15 @@ def root():
 
 @main.route('/post/<uuid>', methods=['GET'])
 def read_more(uuid):
-    return {'uuid': uuid}
+    blog_post = db.session.query(BlogPost).filter_by(uuid=uuid).one_or_none()
+    if blog_post:
+        blog_post = blog_post.serialize()
+        return make_response(render_template('view_post.html',
+                                             blog_post=blog_post
+                                             ),
+                                             200)
+    else:
+        return jsonify({'msg': 'Blog post not found with uuid: ' + uuid}), 404
 
 @main.route('/sign_name', methods=['POST'])
 def sign_name():

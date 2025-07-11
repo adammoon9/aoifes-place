@@ -1,14 +1,15 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-:root{
+:root {
     --faded-lilac: #fddcff;
     --main-lilac: #fdd0ff;
     --dark-lilac: #99719b;
     --text-lilac: #cea2fd;
+    --alt-text-lilac: #59456e;
 }
 
 ::-webkit-scrollbar {
@@ -30,22 +31,22 @@
 
 body {
     background-color: var(--faded-lilac);
-    color: var(--text-lilac);
+    color: var(--alt-text-lilac);
     font-family: 'Arial', sans-serif;
     min-height: 100vh;
 }
 
 .page-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 header {
-  text-align: center;
-  padding: 40px 0;
+    text-align: center;
+    padding: 40px 0;
 }
 
 .logo {
@@ -53,7 +54,7 @@ header {
     font-weight: bold;
     color: var(--text-lilac);
     margin-bottom: 10px;
-    text-shadow: 
+    text-shadow:
         0 0 10px var(--main-lilac),
         0 0 20px var(--main-lilac),
         0 0 30px var(--main-lilac);
@@ -132,7 +133,7 @@ header nav a:hover::before {
     margin-bottom: 15px;
 }
 
-.post { 
+.post {
     margin-bottom: 60px;
     position: relative;
 }
@@ -144,7 +145,7 @@ header nav a:hover::before {
 .post-title {
     font-size: 2rem;
     margin-bottom: 15px;
-    color: var(--text-lilac);
+    color: var(--alt-text-lilac);
     position: relative;
     display: inline-block;
 }
@@ -191,7 +192,10 @@ header nav a:hover::before {
     box-shadow: 0 0 10px var(--dark-lilac);
 }
 
-.submit-name, .login-btn, button, .read-more-btn{
+.submit-name,
+.login-btn,
+button,
+.read-more-btn {
     border-left: 1px solid #fff;
     border-top: 1px solid #fff;
     border-right: 1px solid #848484;
@@ -211,7 +215,9 @@ button:focus {
     outline: 0;
 }
 
-.submit-name:active, .login-btn:active, button:active {
+.submit-name:active,
+.login-btn:active,
+button:active {
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #848484;
