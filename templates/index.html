@@ -21,7 +21,7 @@
         <div class="content">
             <main class="main-content">
                 <div id="posts-container"></div>
-                {% if blog_posts | length > 2 %}
+                {% if blog_posts is not none and blog_posts | length > 2 %}
                 <div id="pagination">
                     <button id="prev-page" style="max-width:fit-content;">Prev</button>
                     <span id="page-indicator">1</span>
