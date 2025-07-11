@@ -5,6 +5,9 @@ class SignedUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     signed_name = db.Column(db.String(80), unique=True)
 
+    def __init__(self, signed_name) -> None:
+        self.signed_name = signed_name
+
     def serialize(self):
         return {
             'id': self.id,

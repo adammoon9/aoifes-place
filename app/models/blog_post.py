@@ -1,5 +1,6 @@
 from app.extensions import db
 from datetime import datetime
+from uuid import uuid4
 
 class BlogPost(db.Model):
     __tablename__ = 'blog_posts'
@@ -8,6 +9,11 @@ class BlogPost(db.Model):
     title = db.Column(db.String(70), nullable=False)
     content = db.Column(db.String, nullable=False)
     upload_date = db.Column(db.DateTime, default=datetime.now())
+
+    def __init__(self, title, content) -> None:
+        self.title = title
+        self.content = content
+        self.uuid = str(uuid4())
 
     def serialize(self) -> dict:
         return {

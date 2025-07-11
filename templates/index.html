@@ -85,6 +85,7 @@ $(function(){
                         <p>${formattedPost}</p>
                     ${isPostTooLong ? `<a class="read-more-btn" href="/post/${post.uuid}">Read More</a>` : ''}
                     </div>
+                    <footer style="text-align: right;">${post.upload_date}</footer>
                 </article>
                 <hr>
             `;

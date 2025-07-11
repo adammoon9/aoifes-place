@@ -5,7 +5,6 @@ from app.models.signed_user import SignedUser
 from app.models.blog_post import BlogPost
 from app.models.user import User
 from sqlalchemy.exc import IntegrityError
-from uuid import uuid4
 
 main = Blueprint('main', __name__)
 
@@ -69,6 +68,8 @@ def login():
             password = request_data['password']
         
             user = db.session.query(User).filter_by(username=username).first()
+            if not user:
+                return jsonify({'msg': 'Unable to find user with username: ' + username}), 404
             try:
                 if user.check_password(password=password):
                     response = jsonify({'msg': 'login successful'})
@@ -126,8 +127,7 @@ def create_blog_post():
         try:
             title = request_data['title']
             content = request_data['content']
-            uuid = str(uuid4())
-            new_post = BlogPost(title=title, content=content, uuid=uuid)
+            new_post = BlogPost(title=title, content=content)
             db.session.add(new_post)
             db.session.commit()
 
