@@ -63,7 +63,6 @@ $(document).ready(function () {
         e.preventDefault();
         let title = $('input#add-post-title').val().trim();
         let content = $('textarea#add-post-content').val();
-        console.log(content);
         let csrf_token = getCookie('csrf_access_token');
         
         $.ajax({
@@ -107,23 +106,22 @@ $(document).ready(function () {
     });
     
     // Insert the content and title for the post to edit into the edit modal
-    $('button.edit-post').click(function(e){
-        let id = $(this).attr('data-post-id');
+    $('#blogPostTable').on('click', 'button.edit-post', function(e){
+        let id = $(this).data('post-id');
         let title = $('#post-'+id+'-title').html();
         let content = $('#post-'+id+'-content').html();
 
         $('#edit-post-title').val(title);
         $('#edit-post-content').val(content);
-        $('#edit-post-form').attr('data-post-id', id)
+        $('#edit-post-form').data('post-id', id)
     });
 
     $('#edit-post-form').submit(function(e){
         e.preventDefault();
         let title = $('input#edit-post-title').val().trim();
         let content = $('textarea#edit-post-content').val();
-        let id = $(this).attr('data-post-id');
+        let id = $(this).data('post-id');
         let csrf_token = getCookie('csrf_access_token');
-        console.log(content);
 
         $.ajax({
             type: "PUT",
@@ -155,16 +153,16 @@ $(document).ready(function () {
         });
     });
 
-    $('button.delete-post').click(function(){
-        let id = $(this).attr('data-post-id');
+    $('#blogPostTable').on('click', 'button.delete-post', function(){
+        let id = $(this).data('post-id');
         let title = $('#post-'+id+'-title').html();
 
         $('#deletePostModal div.modal-body').html('<p>Are you sure you want to delete the blog post: ' + title + '?</p>');
-        $('#deletePostModalConfirm').attr('data-post-id', id);
+        $('#deletePostModalConfirm').data('post-id', id);
     });
 
     $('#deletePostModalConfirm').click(function(){
-        let id = $(this).attr('data-post-id');
+        let id = $(this).data('post-id');
         let csrf_token = getCookie('csrf_access_token');
 
         $.ajax({
@@ -184,14 +182,14 @@ $(document).ready(function () {
     });
 
     $('button.delete-user').click(function(){
-        let id = $(this).attr('data-user-id');
+        let id = $(this).data('user-id');
         let name = $('#user-'+id+'-name').html();
         $('#deleteSignedModal div.modal-body').html(`<p>Are you sure you want to delete the user: ${name}?</p>`)
-        $('#deleteSignedModalConfirm').attr('data-user-id', id);
+        $('#deleteSignedModalConfirm').data('user-id', id);
     });
 
     $('#deleteSignedModalConfirm').click(function(){
-        let id = $(this).attr('data-user-id');
+        let id = $(this).data('user-id');
         let csrf_token = getCookie('csrf_access_token');
 
         $.ajax({
