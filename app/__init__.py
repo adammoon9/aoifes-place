@@ -6,7 +6,7 @@ from .models.user import User
 from .models.blog_post import BlogPost
 
 def create_app():
-    app = Flask(__name__, template_folder='../templates', static_folder='../static')
+    app = Flask(__name__)
 
     app.config.from_pyfile('config.py')
     
