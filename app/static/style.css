@@ -29,6 +29,11 @@
     background-color: var(--faded-lilac);
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--faded-lilac);
     color: var(--alt-text-lilac);
@@ -367,4 +372,116 @@ button {
     flex-direction: column;
     align-items: stretch;
     overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 20px 0;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0 10px;
+    gap: 20px;
+  }
+
+  .page-container,
+  .main-content,
+  .sidebar,
+  header,
+  nav,
+  .login-content,
+  .login-main,
+  .widget,
+  .post,
+  .post-content {
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  .main-content,
+  .sidebar,
+  .widget {
+    padding: 15px;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+
+  .login-content {
+    flex-direction: column;
+    margin: 0 10px;
+  }
+
+  .login-main {
+    width: 100%;
+  }
+
+  nav a {
+    font-size: 1rem;
+    padding: 6px 10px;
+  }
+
+  #pagination {
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .submit-name,
+  .login-btn,
+  button {
+    padding: 6px 10px;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  iframe {
+    height: 200px !important;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .post-title {
+    font-size: 1.5rem;
+  }
+
+  .widget-title,
+  .widget-title-table {
+    font-size: 1.2rem;
+  }
+
+  /* Table responsiveness for admin.html */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 770px;
+  }
+
+  table th,
+  table td {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 6px;
+    vertical-align: middle;
+  }
 }

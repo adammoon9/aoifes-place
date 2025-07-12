@@ -22,37 +22,39 @@
 
         <div class="content">
             <main class="admin-content main-content">
-                <table class="table table-borderless table-custom w-100" id="blogPostTable">
-                    <thead>
-                        <tr>
-                            <th class="widget-title-table text-center" colspan="5">Blog Posts</th>
-                            <th class="align-right"><button data-bs-toggle="modal" data-bs-target="#addPostModal">Add</button></th>
-                        </tr>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Content</th>
-                            <th scope="col">Upload Date</th>
-                            <th scope="col">Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if blog_posts %}
-                        {% for post in blog_posts %}
-                        <tr id="post-{{ post.id }}-row">
-                            <th scope="row" class="align-middle">{{ post.id }}</th>
-                            <th scope="row" class="align-middle" id="post-{{ post.id }}-title">{{ post.title }}</th>
-                            <th scope="row" class="align-middle" id="post-{{ post.id }}-content">{{ post.content }}</th>
-                            <th scope="row" class="align-middle">{{ post.upload_date }}</th>
-                            <th scope="row" class="align-middle">
-                                <button class="delete-post" data-bs-toggle="modal" data-bs-target="#deletePostModal" data-post-id="{{ post.id }}">Delete</button>
-                                <button class="edit-post" data-bs-toggle="modal" data-bs-target="#editPostModal" data-post-id="{{ post.id }}">Edit</button>
-                            </th>
-                        </tr>
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless table-custom w-100" id="blogPostTable">
+                        <thead>
+                            <tr>
+                                <th class="widget-title-table text-center" colspan="5">Blog Posts</th>
+                                <th class="align-right"><button data-bs-toggle="modal" data-bs-target="#addPostModal">Add</button></th>
+                            </tr>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Content</th>
+                                <th scope="col">Upload Date</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if blog_posts %}
+                            {% for post in blog_posts %}
+                            <tr id="post-{{ post.id }}-row">
+                                <th scope="row" class="align-middle">{{ post.id }}</th>
+                                <th scope="row" class="align-middle" id="post-{{ post.id }}-title">{{ post.title }}</th>
+                                <th scope="row" class="align-middle" id="post-{{ post.id }}-content">{{ post.content }}</th>
+                                <th scope="row" class="align-middle">{{ post.upload_date }}</th>
+                                <th scope="row" class="align-middle">
+                                    <button class="delete-post" data-bs-toggle="modal" data-bs-target="#deletePostModal" data-post-id="{{ post.id }}">Delete</button>
+                                    <button class="edit-post" data-bs-toggle="modal" data-bs-target="#editPostModal" data-post-id="{{ post.id }}">Edit</button>
+                                </th>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </main>
             <aside class="sidebar">
                 <section class="widget">
